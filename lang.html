@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Name Generator</title>
+</head>
+<body>
+    <h1>Name Generator</h1>
+    <form action="nameGenerator.jsp" method="post">
+        <label for="nameInput">Enter names (one per line, type 'done' when finished):</label>
+        <br>
+        <textarea id="nameInput" name="nameInput" rows="10" cols="30" required></textarea>
+        <br>
+        <label for="letterInput">Enter a letter:</label>
+        <input type="text" id="letterInput" name="letterInput" maxlength="1" required>
+        <br>
+        <input type="submit" value="Generate Names">
+    </form>
+</body>
+</html>
