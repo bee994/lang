@@ -5,6 +5,10 @@
     <link href='https://fonts.googleapis.com/css?family=Playfair Display' rel='stylesheet'>
     <style>
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             background: rgb(239,213,255);
             background: radial-gradient(circle, rgba(239,213,255,1) 0%, rgba(81,90,218,1) 100%);
             text-align: center;
@@ -15,26 +19,38 @@
             font-style: italic;
             font-weight: normal;
         }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        textarea {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
-<body onload="loadText()">
+<body>
     <h1>Word Generator</h1>
-    <label for="nameInput">Enter words (one per line):</label>
-    <br>
-    <textarea id="nameInput" rows="15" cols="40"></textarea>
-    <br>
-    <button type="button" onclick="generateWords()">Generate Words</button>
+    <form method="post">
+        <label for="nameInput">Enter words (one per line):</label>
+        <br>
+        <textarea id="nameInput" name="nameInput" rows="15" cols="40"><?php if(isset($_POST['nameInput'])) { echo htmlentities($_POST['nameInput']); } ?></textarea>
+        <br>
+        <button type="submit">Generate Words</button>
+    </form>
     <br>
     <p id="output"></p>
-    
+
     <script>
+        var namesInput;
+        var names;
+        
         function generateWords() {
-            var namesInput = document.getElementById("nameInput").value;
-            var names = namesInput.split("\n").map(function(name) {
-                return name.trim();
-            }).filter(function(name) {
-                return name !== "";
-            });
+            if (!namesInput) {
+                namesInput = document.getElementById("nameInput");
+                names = namesInput.value.split("\n").map(function(name) {
+                    return name.trim();
+                });
+            }
             
             var output = document.getElementById("output");
             output.innerHTML = "";
@@ -44,16 +60,12 @@
                 output.innerHTML += name + "<br>";
                 names.splice(index, 1);
             }
-            
-            localStorage.setItem("namesInput", namesInput);
         }
         
-        function loadText() {
-            var namesInput = localStorage.getItem("namesInput");
-            if (namesInput) {
-                document.getElementById("nameInput").value = namesInput;
-            }
-        }
+        document.querySelector("form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            generateWords();
+        });
     </script>
 </body>
 </html>
