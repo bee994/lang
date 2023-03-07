@@ -19,15 +19,23 @@
             display: block;
             margin-bottom: 10px;
         }
+        textarea {
+            display: block;
+            margin: 0 auto;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+        }
     </style>
 </head>
 <body>
     <h1>Word Generator</h1>
-    <label for="nameInput">Enter words (one per line):</label>
-    <textarea id="nameInput" rows="15" cols="40"><?php if(isset($_POST['nameInput'])) { echo htmlentities($_POST['nameInput']); } ?></textarea>
-    <br>
-    <button type="button" onclick="generateWords()">Generate Words</button>
-    <br>
+    <form method="post">
+        <label for="nameInput">Enter words (one per line):</label>
+        <textarea id="nameInput" name="nameInput" rows="15" cols="40"><?php if(isset($_POST['nameInput'])) { echo htmlentities($_POST['nameInput']); } ?></textarea>
+        <button type="submit">Generate Words</button>
+    </form>
     <p id="output"></p>
     
     <script>
