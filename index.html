@@ -1,29 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Name Generator</title>
+    <title>Word Generator</title>
+    <link href='https://fonts.googleapis.com/css?family=Playfair Display' rel='stylesheet'>
     <style>
         body {
             background: rgb(239,213,255);
             background: radial-gradient(circle, rgba(239,213,255,1) 0%, rgba(81,90,218,1) 100%);
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+        }
+        h1 {
+            font-style: italic;
+            font-weight: normal;
         }
     </style>
 </head>
-<body>
-    <h1>Name Generator</h1>
-    <label for="nameInput">Enter names (one per line, separated by commas):</label>
+<body onload="loadText()">
+    <h1>Word Generator</h1>
+    <label for="nameInput">Enter words (one per line):</label>
     <br>
-    <textarea id="nameInput" rows="10" cols="30"></textarea>
+    <textarea id="nameInput" rows="15" cols="40"></textarea>
     <br>
-    <button type="button" onclick="generateNames()">Generate Names</button>
+    <button type="button" onclick="generateWords()">Generate Words</button>
     <br>
     <p id="output"></p>
     
     <script>
-        function generateNames() {
+        function generateWords() {
             var namesInput = document.getElementById("nameInput").value;
-            var names = namesInput.split(",").map(function(name) {
+            var names = namesInput.split("\n").map(function(name) {
                 return name.trim();
+            }).filter(function(name) {
+                return name !== "";
             });
             
             var output = document.getElementById("output");
@@ -33,6 +43,15 @@
                 var name = names[index];
                 output.innerHTML += name + "<br>";
                 names.splice(index, 1);
+            }
+            
+            localStorage.setItem("namesInput", namesInput);
+        }
+        
+        function loadText() {
+            var namesInput = localStorage.getItem("namesInput");
+            if (namesInput) {
+                document.getElementById("nameInput").value = namesInput;
             }
         }
     </script>
