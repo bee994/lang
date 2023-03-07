@@ -15,26 +15,32 @@
             font-style: italic;
             font-weight: normal;
         }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
-<body onload="loadText()">
+<body>
     <h1>Word Generator</h1>
     <label for="nameInput">Enter words (one per line):</label>
-    <br>
-    <textarea id="nameInput" rows="15" cols="40"></textarea>
+    <textarea id="nameInput" rows="15" cols="40"><?php if(isset($_POST['nameInput'])) { echo htmlentities($_POST['nameInput']); } ?></textarea>
     <br>
     <button type="button" onclick="generateWords()">Generate Words</button>
     <br>
     <p id="output"></p>
     
     <script>
+        var namesInput;
+        var names;
+        
         function generateWords() {
-            var namesInput = document.getElementById("nameInput").value;
-            var names = namesInput.split("\n").map(function(name) {
-                return name.trim();
-            }).filter(function(name) {
-                return name !== "";
-            });
+            if (!namesInput) {
+                namesInput = document.getElementById("nameInput");
+                names = namesInput.value.split("\n").map(function(name) {
+                    return name.trim();
+                });
+            }
             
             var output = document.getElementById("output");
             output.innerHTML = "";
@@ -43,15 +49,6 @@
                 var name = names[index];
                 output.innerHTML += name + "<br>";
                 names.splice(index, 1);
-            }
-            
-            localStorage.setItem("namesInput", namesInput);
-        }
-        
-        function loadText() {
-            var namesInput = localStorage.getItem("namesInput");
-            if (namesInput) {
-                document.getElementById("nameInput").value = namesInput;
             }
         }
     </script>
